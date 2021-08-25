@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { useTypedSelector } from './store/useTypedSelector'
+
+import { rootReducer } from './store/rootReducer'
+import { fetchWeather } from './store/actionCreator'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const dispatch = useDispatch()
+  const { weather, isLoading, error } = useTypedSelector(state => state)
+
+  useEffect(() => {
+    dispatch(fetchWeather())
+    console.log(weather.city)
+  }, [])
+
+  if (isLoading) {
+    return <h1>Идет загрузка</h1>
+  }
+  if (error) {
+    return <h1>Произошла ошибка</h1>
+  }
+
+  return <div className="App"></div>
 }
 
-export default App;
+export default App
