@@ -1,3 +1,5 @@
+import { WeatherProps } from './../types/weather'
+
 export enum ActionEnum {
   FETCH_WEATHER = 'FETCH_WEATHER',
   FETCH_WEATHER_SUCCESS = 'FETCH_WEATHER_SUCCESS',
@@ -16,26 +18,23 @@ interface actionWeatherFetchError {
   payload: string
 }
 interface initialStateProps {
-  weather: any
+  weather: WeatherProps | null
   isLoading: boolean
   error: string | null
 }
 const initialState: initialStateProps = {
-  weather: {},
+  weather: null,
   isLoading: false,
   error: null,
 }
 
-export type ActionTypes =
-  | actionWeatherFetch
-  | actionWeatherFetchSuccess
-  | actionWeatherFetchError
+export type ActionTypes = actionWeatherFetch | actionWeatherFetchSuccess | actionWeatherFetchError
 
-export const rootReducer = (state = initialState, action: ActionTypes) => {
+export const rootReducer = (state = initialState, action: ActionTypes): initialStateProps => {
   switch (action.type) {
     case ActionEnum.FETCH_WEATHER:
       return {
-        weather: {},
+        weather: null,
         isLoading: true,
         error: null,
       }
@@ -47,7 +46,7 @@ export const rootReducer = (state = initialState, action: ActionTypes) => {
       }
     case ActionEnum.FETCH_WEATHER_ERROR:
       return {
-        weather: {},
+        weather: null,
         isLoading: false,
         error: action.payload,
       }
